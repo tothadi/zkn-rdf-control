@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  client:
+    container_name: scale-client
+    image: node:18-alpine
+    command: ["npm", "run", "start"]
+    environment:
+      PORT: "${PORT_FRONTEND:-4200}"
+    ports:
+    - "${PORT_FRONTEND:-4200}:${PORT_FRONTEND:-4200}"
+    - 49153:49153
+    user: node
+    volumes:
+    - type: bind
+      source: ./client
+      target: /app
+    working_dir: /app
+  api:
+    container_name: scale-server
+    image: tothadi/node18-alpine-ffmpeg:latest
+    command: ["npm", "run", "dev"]
+    ports:
+      - '${PORT:-7000}:${PORT:-7000}'
+    user: node
+    restart: always
+    volumes:
+      - type: bind
+        source: ./api
+        target: /app
+    working_dir: /app
+    environment:
+      PORT: '${PORT:-6000}'
+      TCP_PORT: '${TCP_PORT:-6001}'
+      MONGODB_URL: '${MONGODB_URL}'
+      SCALE_PORT: '${SCALE_PORT:-7000}'
+      SCALE_HOST: '${SCALE_HOST:-localhost}'
+      STREAM_INCOMING: '${STREAM_INCOMING}'
+      STREAM_OUTGOING: '${STREAM_OUTGOING}'
+      JWT_SECRET: '${JWT_SECRET}'
+      BARRIER_HOST: '${BARRIER_HOST}'
+      BARRIER_PORT: '${BARRIER_PORT}'
+      BARRIER_PASSWORD: '${BARRIER_PASSWORD}'

@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  client:
+    container_name: scale-client
+    build:
+      context: ./
+      dockerfile: client/Dockerfile
+      args:
+        PORT: "${PORT_FRONTEND:-4200}"
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${PORT_FRONTEND:-4200}:${PORT_FRONTEND:-4200}"
+    restart: always
+  api:
+    container_name: scale-server
+    build:
+      context: ./
+      dockerfile: api/Dockerfile
+    ports:
+      - "${PORT:-7000}:${PORT:-7000}"
+    restart: always
+    working_dir: /app
+    environment:
+      PORT: "${PORT:-6000}"
+      TCP_PORT: '${TCP_PORT:-6001}'
+      MONGODB_URL: "${MONGODB_URL}"
+      SCALE_PORT: "${SCALE_PORT:-7000}"
+      SCALE_HOST: "${SCALE_HOST:-localhost}"
+      STREAM_INCOMING: "${STREAM_INCOMING}"
+      STREAM_OUTGOING: "${STREAM_OUTGOING}"
+      JWT_SECRET: "${JWT_SECRET}"
+      BARRIER_HOST: "${BARRIER_HOST}"
+      BARRIER_PORT: "${BARRIER_PORT}"
+      BARRIER_PASSWORD: "${BARRIER_PASSWORD}"

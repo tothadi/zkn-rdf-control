@@ -1,0 +1,50 @@
+{
+    "name": "zkn-weight-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "scripts": {
+        "start": "node .",
+        "dev": "nodemon src/index.ts development --ignore node-modules --ignore package.json --ignore package-lock.json --trace-uncaught --trace-warnings",
+        "tsc": "tsc",
+        "build": "tsc -b",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tothadi/zkn-weight-server.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tothadi/zkn-weight-server/issues"
+    },
+    "homepage": "https://github.com/tothadi/zkn-weight-server#readme",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.1",
+        "mongodb": "^5.7.0",
+        "morgan": "^1.10.0",
+        "socket.io": "^4.7.2",
+        "typeorm": "^0.3.17"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.17",
+        "@types/morgan": "^1.9.3",
+        "@types/node": "^20.4.7",
+        "@typescript-eslint/eslint-plugin": "^6.2.0",
+        "@typescript-eslint/parser": "^6.2.0",
+        "eslint": "^8.46.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-airbnb-typescript": "^17.1.0",
+        "eslint-config-prettier": "^8.9.0",
+        "eslint-plugin-import": "^2.28.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.1.6"
+    }
+}
