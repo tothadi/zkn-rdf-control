@@ -17,6 +17,8 @@ services:
     build:
       context: ./
       dockerfile: api/Dockerfile
+      args:
+        PORT: "${PORT:-6001}" 
     ports:
       - "${PORT:-6001}:${PORT:-6001}"
     restart: always

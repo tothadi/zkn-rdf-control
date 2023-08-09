@@ -6,9 +6,9 @@ config();
 
 export const isProd = process.env.NODE_ENV === 'production';
 
-export const port = parseEnvNumber('PORT', 6000);
+export const port = parseEnvNumber('PORT', 6001);
 
-export const tcpPort = parseEnvNumber('TCP_PORT', 6001);
+export const tcpPort = parseEnvNumber('TCP_PORT', 6002);
 
 export const db = {
     url: requiredEnvValue('MONGODB_URL'),
