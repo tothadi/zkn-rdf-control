@@ -1,8 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-// import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-// import { faCopyright } from '@fortawesome/free-solid-svg-icons';
-import { AuthenticationService } from '../authentication.service';
+import { AuthService } from '../auth.service';
 import { StreamService } from '../stream.service';
 
 @Component({
@@ -19,16 +17,11 @@ export class MerlegComponent implements OnInit, AfterViewInit, OnDestroy {
     outgoingStream = new Subscription();
     weightStream = new Subscription();
     weight = 0;
-    // copyright = faCopyright;
-    // signout = faSignOutAlt;
     incomingSrc = 'assets/image/back1.jpg';
     outgoingSrc = 'assets/image/back2.jpg';
     barstate = 'open';
 
-    constructor(
-        private streamService: StreamService,
-        private auth: AuthenticationService
-    ) { }
+    constructor(private streamService: StreamService, private auth: AuthService) {}
 
     openGate() {
         this.barstate = 'open';
@@ -47,7 +40,6 @@ export class MerlegComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {
         this.weightStream = this.streamService.getWeight().subscribe((weight) => {
             this.weight = weight;
-            console.log(weight);
         });
     }
 

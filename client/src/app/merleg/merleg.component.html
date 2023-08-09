@@ -1,33 +1,42 @@
 <div id="container">
-
     <div id="menu">
         <div id="barrier">
-            <div *ngIf="barstate === 'open'; then barThenBlock else barElseBlock"></div>
-            <ng-template #barElseBlock><img class="bar" src="assets/image/barrier_up.svg" alt="open" (click)="openGate()"></ng-template>
-            <ng-template #barThenBlock><img class="bar" src="assets/image/barrier_down.svg" (click)="closeGate()" alt="close"></ng-template>
+            <div *ngIf="barstate === 'open'; then barThenBlock; else barElseBlock"></div>
+            <ng-template #barElseBlock
+                ><img class="bar" src="assets/image/barrier_up.svg" alt="open" (click)="openGate()"
+            /></ng-template>
+            <ng-template #barThenBlock
+                ><img
+                    class="bar"
+                    src="assets/image/barrier_down.svg"
+                    (click)="closeGate()"
+                    alt="close"
+            /></ng-template>
         </div>
         <div id="text">
             <h1>RDF üzem mérleg új</h1>
             <div id="data">
-                <p id="weight">{{weight}} kg</p>
+                <p id="weight">{{ weight }} kg</p>
             </div>
         </div>
+        <mat-icon inline id="signout" (click)="signOut()">logout</mat-icon>
         <!-- <fa-icon id="signout" [icon]="signout" (click)="signOut()"></fa-icon> -->
     </div>
 
     <div #cam id="cam">
-
         <canvas #str1 class="streams" height="720" width="1280"></canvas>
         <canvas #str2 class="streams" height="720" width="1280"></canvas>
-
     </div>
 
     <footer>
         <div id="copy-right">
-            <p>logic &amp; code by <a href="https://www.tothadi.hu" target="blank">tothadi</a>
-                <!-- <fa-icon [icon]="copyright"></fa-icon>2019-2020 -->
             <p>
+                Logic &amp; code by <a href="https://www.tothadi.hu" target="blank">tothadi</a>
+                <mat-icon>copyright</mat-icon>
+                <span>2023</span>
+            </p>
+
+            <p></p>
         </div>
     </footer>
-
 </div>
