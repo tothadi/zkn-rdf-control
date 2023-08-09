@@ -9,7 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AuthenticationService } from './authentication.service';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from './auth.service';
 import { HomeComponent } from './home/home.component';
 import { MerlegComponent } from './merleg/merleg.component';
 import { RegisterComponent } from './register/register.component';
@@ -27,8 +28,9 @@ import { StreamService } from './stream.service';
         ReactiveFormsModule,
         MatButtonModule,
         MatDialogModule,
+        MatIconModule,
     ],
-    providers: [AuthenticationService, StreamService],
+    providers: [AuthService, StreamService],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

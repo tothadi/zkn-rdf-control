@@ -1,35 +1,37 @@
-import { Component } from '@angular/core'
-import { AuthenticationService, LoginData } from '../authentication.service'
-import { Router } from '@angular/router'
+import { Component } from '@angular/core';
+import { AuthService, LoginData } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+    credentials: LoginData = {
+        username: '',
+        password: '',
+    };
 
-  credentials: LoginData = {
-    username: '',
-    password: ''
-  }
+    loginError = false;
+    errorMessage = '';
 
-  loginError = false
-  errorMessage = ''
+    constructor(private auth: AuthService, private router: Router) {}
 
-  constructor(private auth: AuthenticationService, private router: Router) { }
+    login() {
+        this.auth.login(this.credentials).subscribe(
+            () => {
+                this.router.navigateByUrl('/merleg');
+            },
+            (err) => {
+                this.loginError = true;
+                this.errorMessage = err.error.message;
+            }
+        );
+    }
 
-  login() {
-    this.auth.login(this.credentials).subscribe(() => {
-      this.router.navigateByUrl('/merleg');
-    }, (err) => {
-      this.loginError = true;
-      this.errorMessage = err.error.message;
-    });
-  }
-
-  closeError() {
-    this.errorMessage = '';
-    this.loginError = false;
-  }
+    closeError() {
+        this.errorMessage = '';
+        this.loginError = false;
+    }
 }

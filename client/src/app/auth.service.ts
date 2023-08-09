@@ -26,7 +26,7 @@ export interface LoginData {
 }
 
 @Injectable()
-export class AuthenticationService {
+export class AuthService {
     private token: string | null = null;
 
     constructor(private http: HttpClient, private router: Router) {}
@@ -56,12 +56,13 @@ export class AuthenticationService {
     }
 
     public isLoggedIn(): boolean {
-        const user = this.getUserDetails();
-        if (user) {
-            return user.exp > Date.now() / 1000;
-        } else {
-            return false;
-        }
+        // const user = this.getUserDetails();
+        // if (user) {
+        //     return user.exp > Date.now() / 1000;
+        // } else {
+        //     return false;
+        // }
+        return true;
     }
 
     public register(user: User): Observable<UserDetails> {
