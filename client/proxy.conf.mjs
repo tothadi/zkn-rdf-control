@@ -4,15 +4,8 @@ export default [
             '/api',
             '/stream',
         ],
-        target: 'http://api:7001',
+        target: 'http://api:6001',
         secure: false,
         changeOrigin: true
-    },
-    {
-        context: ['/weight'],
-        target: 'http://api:7002',
-        secure: false,
-        changeOrigin: true,
-        websocket: true
     }
 ];
