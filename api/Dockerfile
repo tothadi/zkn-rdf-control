@@ -36,4 +36,7 @@ RUN npm ci
 
 COPY --from=builder /app/dist /app/dist
 
+HEALTHCHECK --interval=15s \
+    CMD node -e "fetch('http://localhost:$PORT/health').then(() => process.exit(0)).catch((err) => { console.log(err); process.exit(1); })"
+
 CMD ["npm", "start"]

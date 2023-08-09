@@ -1,18 +1,18 @@
 FROM node:18-alpine AS builder
 
-ENV NODE_ENV=production
-
 RUN mkdir /app && chown node:node /app
-RUN npm i -g @angular/cli
 
 USER node
 WORKDIR /app
 
 COPY --chown=node ./client/package* /app/
-COPY --chown=node ./client/angular.json /app/
 RUN npm ci
 
 COPY --chown=node ./client/src /app/src
+COPY --chown=node ./client/angular.json /app/
+COPY --chown=node ./client/tsconfig* /app/
+
+ENV NODE_ENV=production
 
 RUN npm run build
 
