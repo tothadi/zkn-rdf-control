@@ -6,13 +6,11 @@ services:
     build:
       context: ./
       dockerfile: client/Dockerfile
-      args:
-        PORT: "${PORT_FRONTEND:-4200}"
     depends_on:
       api:
         condition: service_healthy
     ports:
-      - "${PORT_FRONTEND:-4200}:${PORT_FRONTEND:-4200}"
+      - "${PORT_FRONTEND:-3000}:${PORT_FRONTEND:-3000}"
     restart: always
   api:
     container_name: scale-server
@@ -20,12 +18,12 @@ services:
       context: ./
       dockerfile: api/Dockerfile
     ports:
-      - "${PORT:-7000}:${PORT:-7000}"
+      - "${PORT:-6001}:${PORT:-6001}"
     restart: always
     working_dir: /app
     environment:
-      PORT: "${PORT:-6000}"
-      TCP_PORT: '${TCP_PORT:-6001}'
+      PORT: "${PORT:-6001}"
+      TCP_PORT: '${TCP_PORT:-6002}'
       MONGODB_URL: "${MONGODB_URL}"
       SCALE_PORT: "${SCALE_PORT:-7000}"
       SCALE_HOST: "${SCALE_HOST:-localhost}"

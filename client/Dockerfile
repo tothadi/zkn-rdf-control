@@ -8,12 +8,12 @@ USER node
 WORKDIR /app
 
 COPY --chown=node ./client/package* /app/
+COPY --chown=node ./client/angular.json /app/
+COPY --chown=node ./client/karma.conf.js /app/
 
 RUN npm ci
 
 COPY --chown=node ./client/src /app/src
-COPY --chown=node ./client/angular.json /app/
-COPY --chown=node ./client/karma.conf.js /app/
 
 RUN npm run build
 

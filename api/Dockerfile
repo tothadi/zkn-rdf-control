@@ -4,16 +4,16 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY ./package* /app/
+COPY ./api/package* /app/
 
 RUN npm ci
 
-COPY ./ /app/
+COPY ./api /app
 
 RUN npm run build
 
 
-FROM tothadi/node18-alpine-ffmpeg:ffmpeg
+FROM tothadi/node18-alpine-ffmpeg:latest
 
 RUN apk update && apk add --no-cache tzdata
 
@@ -30,7 +30,7 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY ./package* /app/
+COPY ./api/package* /app/
 
 RUN npm ci
 

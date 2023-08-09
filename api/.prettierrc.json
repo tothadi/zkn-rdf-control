@@ -1,17 +1,17 @@
 {
-	"printWidth": 100,
-	"singleQuote": true,
-	"semi": true,
-	"tabWidth": 4,
-	"trailingComma": "es5",
-	"jsxSingleQuote": true,
-	"useTabs": false,
-	"overrides": [
-		{
-			"files": "*.yaml",
-			"options": {
-				"tabWidth": 2
-			}
-		}
-	]
+  "printWidth": 100,
+  "singleQuote": true,
+  "semi": true,
+  "tabWidth": 4,
+  "trailingComma": "es5",
+  "jsxSingleQuote": true,
+  "useTabs": false,
+  "overrides": [
+    {
+      "files": ["*.yaml", "*.json"],
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
 }
