@@ -41,9 +41,16 @@ export default function createUsersRepo(dataSource: DataSource) {
          * @return a string with the JWT token
          */
         generateToken({ _id, fullname, username, email }: User): string {
-            return sign({ _id, fullname, username, email, exp: tokenExpiration }, jwtSecret, {
-                expiresIn: tokenExpiration,
-            });
+            return sign(
+                {
+                    _id,
+                    fullname,
+                    username,
+                    email,
+                    exp: new Date().getTime() + tokenExpiration * 3600 * 1000,
+                },
+                jwtSecret
+            );
         },
         /**
          * Check if the given password is correct for the user with bcrypt.

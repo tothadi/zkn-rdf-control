@@ -21,7 +21,8 @@ export const scale = {
 
 export const jwtSecret = requiredEnvValue('JWT_SECRET');
 
-export const tokenExpiration = process.env.TOKEN_EXPIRATION || '24h';
+// In hours
+export const tokenExpiration = parseEnvNumber('TOKEN_EXPIRATION', 24);
 
 export const stream = {
     INCOMING: requiredEnvValue('STREAM_INCOMING'),

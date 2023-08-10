@@ -56,13 +56,12 @@ export class AuthService {
     }
 
     public isLoggedIn(): boolean {
-        // const user = this.getUserDetails();
-        // if (user) {
-        //     return user.exp > Date.now() / 1000;
-        // } else {
-        //     return false;
-        // }
-        return true;
+        const user = this.getUserDetails();
+        if (user) {
+            return user.exp > Date.now() / 1000;
+        } else {
+            return false;
+        }
     }
 
     public register(user: User): Observable<UserDetails> {

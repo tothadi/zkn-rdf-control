@@ -19,7 +19,7 @@ export default function RegisterUser({ models }: { models: Models }) {
                 });
             }
 
-            const existing = await models.Users.findOne({ where: [{ username }, { email }] });
+            const existing = await models.Users.findOne({ where: { username, email } });
 
             if (existing) {
                 return res.status(400).json({ message: 'User Already exists.' });
