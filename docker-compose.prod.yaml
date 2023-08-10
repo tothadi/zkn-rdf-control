@@ -20,7 +20,7 @@ services:
       args:
         PORT: "${PORT:-6001}" 
     ports:
-      - "${PORT:-6001}:${PORT:-6001}"
+      - "${TCP_PORT:-6002}:${TCP_PORT:-6002}"
     restart: always
     working_dir: /app
     environment:
