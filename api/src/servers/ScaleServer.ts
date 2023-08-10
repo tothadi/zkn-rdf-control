@@ -62,6 +62,7 @@ export default class Scale {
 
                 if (!Number.isNaN(weight)) {
                     this.streamServer.emit('weight', weight);
+                    this.clients.forEach(({ socket }) => socket.write(chunk));
                 }
             }
         });
@@ -83,15 +84,11 @@ export default class Scale {
                 logger('SCALE', `error from client ${address} - ${err}.`, true)
             );
 
-            // Pipe the stream of the converter to the client socket
-            this.scaleSocket.pipe(socket);
-
             // Add the client socket to the clients
             this.clients.push({ address, socket });
 
             // Subscribe to the close event of the client socket to properly destroy it
             socket.on('close', () => {
-                socket.unpipe();
                 socket.destroy();
                 socket.removeAllListeners();
 
