@@ -17,6 +17,7 @@ export const db = {
 export const scale = {
     host: requiredEnvValue('SCALE_HOST'),
     port: parseEnvNumber('SCALE_PORT'),
+    pattern: requiredEnvValue('SCALE_PATTERN'),
 };
 
 export const jwtSecret = requiredEnvValue('JWT_SECRET');

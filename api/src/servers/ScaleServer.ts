@@ -56,9 +56,12 @@ export default class Scale {
         this.scaleSocket.on('timeout', () => this.reconnect('Timeout'));
         this.scaleSocket.on('end', () => this.reconnect('Scale socket ended'));
         this.scaleSocket.on('data', (chunk: string) => {
-            if (chunk && chunk.includes('KG')) {
+            const match = chunk.match(new RegExp(scale.pattern, 'g'));
+            if (match && match.length > 0) {
+                const isNegative = chunk.includes('-');
                 const dIndex = chunk.indexOf('KG');
-                const weight = parseInt(chunk.substring(dIndex - 5, dIndex), 10);
+                const absWeight = parseInt(chunk.substring(dIndex - 5, dIndex), 10);
+                const weight = isNegative ? absWeight * -1 : absWeight;
 
                 if (!Number.isNaN(weight)) {
                     this.streamServer.emit('weight', weight);
