@@ -20,6 +20,25 @@ export default class Scale {
         this.socketServer = new SocketServer();
     }
 
+    parseWeight(chunk: string): void {
+        try {
+            const match = chunk.match(new RegExp(scale.pattern, 'g'));
+            if (match && match.length > 0) {
+                const isNegative = chunk.includes('-');
+                const dIndex = chunk.indexOf('KG');
+                const absWeight = parseInt(chunk.substring(dIndex - 5, dIndex), 10);
+                const weight = isNegative ? absWeight * -1 : absWeight;
+
+                if (!Number.isNaN(weight)) {
+                    this.streamServer.emit('weight', weight);
+                    this.clients.forEach(({ socket }) => socket.write(chunk));
+                }
+            }
+        } catch (err) {
+            logger('SCALE', `${err}`, true);
+        }
+    }
+
     /**
      * Closes all connections, removes all listeners and destroy every socket,
      * then after 10 seconds restarts the services.
@@ -55,20 +74,7 @@ export default class Scale {
         this.scaleSocket.on('close', () => this.reconnect('Connection closed'));
         this.scaleSocket.on('timeout', () => this.reconnect('Timeout'));
         this.scaleSocket.on('end', () => this.reconnect('Scale socket ended'));
-        this.scaleSocket.on('data', (chunk: string) => {
-            const match = chunk.match(new RegExp(scale.pattern, 'g'));
-            if (match && match.length > 0) {
-                const isNegative = chunk.includes('-');
-                const dIndex = chunk.indexOf('KG');
-                const absWeight = parseInt(chunk.substring(dIndex - 5, dIndex), 10);
-                const weight = isNegative ? absWeight * -1 : absWeight;
-
-                if (!Number.isNaN(weight)) {
-                    this.streamServer.emit('weight', weight);
-                    this.clients.forEach(({ socket }) => socket.write(chunk));
-                }
-            }
-        });
+        this.scaleSocket.on('data', (chunk: string) => this.parseWeight(chunk));
 
         this.scaleSocket.connect(scale.port, scale.host, () => {
             logger('SCALE', 'Connected to scale converter.');
