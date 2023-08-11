@@ -44,6 +44,8 @@ export function getStreamArgs(direction: Direction) {
         'tcp',
         '-i',
         stream[direction],
+        '-threads',
+        '0',
         '-an',
         '-f',
         'mjpeg',
