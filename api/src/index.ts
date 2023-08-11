@@ -4,15 +4,18 @@ import Application from './Application';
 const main = async () => {
     const app = new Application();
     app.init();
+    return app;
 };
 
 main()
-    .then(() => {
+    .then(({ cameraServer }) => {
         process.on('exit', (data) => {
+            cameraServer.children.forEach((child) => child.kill());
             logger('MAIN', `EXIT: ${data}`);
         });
 
         process.on('SIGINT', () => {
+            cameraServer.children.forEach((child) => child.kill());
             logger('MAIN', 'Received SIGINT. Exiting.');
             process.exit(0);
         });

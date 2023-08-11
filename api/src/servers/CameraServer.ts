@@ -1,17 +1,19 @@
-import { spawn } from 'child_process';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import { Server as StreamServer } from 'socket.io';
 import { Direction } from '../types';
 import { logger } from '../utils';
 import { getStreamArgs } from '../config';
 
 export default class CameraServer {
+    children: ChildProcessWithoutNullStreams[];
+
     streamServer: StreamServer;
 
     constructor(streamServer: StreamServer) {
         this.streamServer = streamServer;
     }
 
-    initCamera(direction: Direction): void {
+    initCamera(direction: Direction): ChildProcessWithoutNullStreams {
         const stream = spawn('ffmpeg', getStreamArgs(direction));
 
         stream.on('error', (err) => {
@@ -44,10 +46,12 @@ export default class CameraServer {
                 `data:image/jpeg;base64,${Buffer.from(frame).toString('base64')}`
             );
         });
+
+        return stream;
     }
 
     init(): void {
-        this.initCamera('INCOMING');
-        this.initCamera('OUTGOING');
+        this.children.push(this.initCamera('INCOMING'));
+        this.children.push(this.initCamera('OUTGOING'));
     }
 }

@@ -12,6 +12,10 @@ import CameraServer from './servers/CameraServer';
 export default class Application {
     app: Express;
 
+    cameraServer: CameraServer;
+
+    scaleServer: Scale;
+
     constructor() {
         this.app = express();
     }
@@ -48,10 +52,10 @@ export default class Application {
         });
 
         const { streamServer } = new StreamServer(httpServer);
-        const scaleServer = new Scale(streamServer);
-        const cameraServer = new CameraServer(streamServer);
+        this.scaleServer = new Scale(streamServer);
+        this.cameraServer = new CameraServer(streamServer);
 
-        scaleServer.init();
-        cameraServer.init();
+        this.scaleServer.init();
+        this.cameraServer.init();
     }
 }
