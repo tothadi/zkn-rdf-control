@@ -5,7 +5,7 @@ import { logger } from '../utils';
 import { getStreamArgs } from '../config';
 
 export default class CameraServer {
-    children: ChildProcessWithoutNullStreams[];
+    children: ChildProcessWithoutNullStreams[] = [];
 
     streamServer: StreamServer;
 
