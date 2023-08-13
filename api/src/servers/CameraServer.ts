@@ -44,7 +44,7 @@ export default class CameraServer {
             if (code !== 0) {
                 logger(
                     `STREAMER-${direction}`,
-                    `CLOSE: ffmpeg closed with code ${code}. Restarting in 3 seconds...`
+                    `EXIT: ffmpeg exited with code ${code}. Restarting in 3 seconds...`
                 );
 
                 stream.removeAllListeners();
