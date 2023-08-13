@@ -40,6 +40,21 @@ export default class CameraServer {
             }
         });
 
+        stream.on('exit', (code) => {
+            if (code !== 0) {
+                logger(
+                    `STREAMER-${direction}`,
+                    `CLOSE: ffmpeg closed with code ${code}. Restarting in 3 seconds...`
+                );
+
+                stream.removeAllListeners();
+
+                setTimeout(() => {
+                    this.initCamera(direction);
+                }, 3000);
+            }
+        });
+
         stream.stdout.on('data', (frame) => {
             this.streamServer.emit(
                 direction,
