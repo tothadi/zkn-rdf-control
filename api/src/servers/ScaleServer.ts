@@ -68,7 +68,27 @@ export default class Scale {
         }, 10000);
     }
 
-    init() {
+    removeClient(socket: Socket, address: string, error?: Error): void {
+        const hadError = typeof error !== 'undefined';
+
+        socket.destroy();
+        socket.removeAllListeners();
+
+        // Remove the client socket from the clients list
+        this.clients = this.clients.filter(
+            ({ address: clientAddress }) => clientAddress !== address
+        );
+
+        logger(
+            'SCALE',
+            hadError
+                ? `Error from client ${address} - ${error}.`
+                : `Client disconnected from ${address}.`,
+            hadError
+        );
+    }
+
+    init(): void {
         // Subscribe to events of the scale converter socket
         this.scaleSocket.on('error', (err) => this.reconnect(err.message, true));
         this.scaleSocket.on('close', () => this.reconnect('Connection closed'));
@@ -89,25 +109,13 @@ export default class Scale {
             const address = socket.remoteAddress ?? `unknown-${this.clients.length}`;
 
             // Subscribe to error events of the client
-            socket.on('error', (err) =>
-                logger('SCALE', `error from client ${address} - ${err}.`, true)
-            );
+            socket.on('error', (err) => this.removeClient(socket, address, err));
+
+            // Subscribe to the close event of the client socket to properly destroy it
+            socket.on('close', () => this.removeClient(socket, address));
 
             // Add the client socket to the clients
             this.clients.push({ address, socket });
-
-            // Subscribe to the close event of the client socket to properly destroy it
-            socket.on('close', () => {
-                socket.destroy();
-                socket.removeAllListeners();
-
-                // Remove the client socket from the clients list
-                this.clients = this.clients.filter(
-                    ({ address: clientAddress }) => clientAddress !== address
-                );
-
-                logger('SCALE', `Client disconnected from ${address}.`);
-            });
 
             logger('SCALE', `Client connected from ${address}.`);
         });

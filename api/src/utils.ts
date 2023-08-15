@@ -4,14 +4,14 @@
  * @param mod the module the log entry came from
  * @param line the log entry text
  */
-export function logger(mod: string, line: string, error = false): void {
-    const logLine = `${new Date().toLocaleString()} - ${mod} - ${error ? 'ERROR: ' : ''}${line}`;
+export function logger(mod: string, line: string | Error, error = false) {
+    const base = `${new Date().toLocaleDateString()} - ${mod} -${error ? ' ERROR:' : ''}`;
 
     if (error) {
-        console.error(logLine);
+        console.error(base, line);
         return;
     }
-    console.log(logLine);
+    console.log(base, line);
 }
 
 export function requiredEnvValue(key: string): string {
