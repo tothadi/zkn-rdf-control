@@ -16,6 +16,9 @@ services:
       source: ./client
       target: /app
     working_dir: /app
+    logging:
+      options:
+        max-size: 10m
   api:
     container_name: scale-server
     image: tothadi/node18-alpine-ffmpeg:latest
@@ -42,3 +45,6 @@ services:
       BARRIER_HOST: '${BARRIER_HOST}'
       BARRIER_PORT: '${BARRIER_PORT}'
       BARRIER_PASSWORD: '${BARRIER_PASSWORD}'
+    logging:
+      options:
+        max-size: 10m
