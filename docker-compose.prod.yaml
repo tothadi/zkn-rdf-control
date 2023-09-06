@@ -16,7 +16,7 @@ services:
       options:
         max-size: 10m
     mem_limit: 1G
-    memswap_limit: 2G
+    memswap_limit: 1G
   api:
     container_name: scale-server
     build:
@@ -45,4 +45,5 @@ services:
       options:
         max-size: 10m
     mem_limit: 2G
-    memswap_limit: 4G
+    memswap_limit: 2G
+    cpus: 1
