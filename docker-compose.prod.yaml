@@ -6,6 +6,8 @@ services:
     build:
       context: ./
       dockerfile: client/Dockerfile
+      args:
+        PORT: "${PORT_FRONTEND:-3000}"
     depends_on:
       api:
         condition: service_healthy
@@ -23,7 +25,8 @@ services:
       context: ./
       dockerfile: api/Dockerfile
       args:
-        PORT: "${PORT:-6001}" 
+        PORT: "${PORT:-6001}"
+        TCP_PORT: "${TCP_PORT:-6002}"
     ports:
       - "${TCP_PORT:-6002}:${TCP_PORT:-6002}"
     restart: always

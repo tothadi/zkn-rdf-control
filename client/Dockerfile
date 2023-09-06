@@ -35,5 +35,7 @@ WORKDIR /srv/http
 COPY client/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/build /srv/http
 
+EXPOSE ${PORT}
+
 HEALTHCHECK --interval=15s \
     CMD wget -O/dev/null http://localhost || exit 1
