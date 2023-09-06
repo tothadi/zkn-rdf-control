@@ -44,6 +44,6 @@ services:
     logging:
       options:
         max-size: 10m
-    mem_limit: 2G
-    memswap_limit: 2G
-    cpus: 1
+    mem_limit: 4G
+    memswap_limit: 4G
+    cpus: 2
