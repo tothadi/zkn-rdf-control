@@ -17,8 +17,6 @@ export class MerlegComponent implements OnInit, AfterViewInit, OnDestroy {
     outgoingStream = new Subscription();
     weightStream = new Subscription();
     weight = 0;
-    incomingSrc = 'assets/image/back1.jpg';
-    outgoingSrc = 'assets/image/back2.jpg';
     barstate = 'open';
 
     constructor(private streamService: StreamService, private auth: AuthService) {}
@@ -85,12 +83,13 @@ export class MerlegComponent implements OnInit, AfterViewInit, OnDestroy {
                 );
             };
 
+            image1.src = 'assets/image/back1.jpg';
+            image2.src = 'assets/image/back2.jpg';
+
             this.incomingStream = this.streamService.getIncoming().subscribe((incoming) => {
-                this.incomingSrc = incoming;
                 image1.src = incoming;
             });
             this.outgoingStream = this.streamService.getOutgoing().subscribe((outgoing) => {
-                this.outgoingSrc = outgoing;
                 image2.src = outgoing;
             });
         }
