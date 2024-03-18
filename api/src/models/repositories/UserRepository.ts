@@ -70,8 +70,8 @@ export default function createUsersRepo(dataSource: DataSource) {
          */
         async fromToken(token: string): Promise<User | null> {
             try {
-                const { _id } = verify(token, jwtSecret) as UserPayload;
-                return await this.findOneBy({ _id });
+                const { username } = verify(token, jwtSecret) as UserPayload;
+                return await this.findOneBy({ username });
             } catch (err) {
                 return null;
             }
