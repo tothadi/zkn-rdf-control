@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, OnDestroy } fr
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { StreamService } from '../stream.service';
+import { ApiService } from '../api.service';
 
 @Component({
     selector: 'app-merleg',
@@ -19,16 +20,16 @@ export class MerlegComponent implements OnInit, AfterViewInit, OnDestroy {
     weight = 0;
     barstate = 'open';
 
-    constructor(private streamService: StreamService, private auth: AuthService) {}
+    constructor(private streamService: StreamService, private auth: AuthService, private api: ApiService) {}
 
     openGate() {
         this.barstate = 'open';
-        // this.WeightService.openGate();
+        this.api.openGate().subscribe(() => {});
     }
 
     closeGate() {
         this.barstate = 'closed';
-        // this.WeightService.closeGate();
+        this.api.closeGate().subscribe(() => {});
     }
 
     signOut() {
