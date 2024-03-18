@@ -49,7 +49,7 @@ export const barrier = {
 export function getStreamArgs(direction: Direction) {
     return [
         '-loglevel',
-        'quiet',
+        process.env.FFMPEG_LOG_LEVEL || 'quiet',
         '-an',
         '-rtsp_transport',
         'tcp',
@@ -64,6 +64,8 @@ export function getStreamArgs(direction: Direction) {
         '20',
         '-r',
         '20',
+        '-threads',
+        '1',
         '-f',
         'mjpeg',
         'pipe:1',
