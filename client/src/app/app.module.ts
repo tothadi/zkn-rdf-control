@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { MerlegComponent } from './merleg/merleg.component';
 import { RegisterComponent } from './register/register.component';
 import { StreamService } from './stream.service';
+import { ApiService } from './api.service';
 
 @NgModule({
     declarations: [AppComponent, HomeComponent, MerlegComponent, RegisterComponent],
@@ -30,7 +31,7 @@ import { StreamService } from './stream.service';
         MatDialogModule,
         MatIconModule,
     ],
-    providers: [AuthService, StreamService],
+    providers: [ApiService, AuthService, StreamService],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
