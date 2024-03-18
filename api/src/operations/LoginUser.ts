@@ -21,7 +21,7 @@ export default function LoginUser({ models }: { models: Models }) {
 
             return res.status(200).json({ token: models.Users.generateToken(user) });
         } catch (err) {
-            logger('LOGIN', `${err}`, true);
+            logger('LOGIN', err as Error);
             return res.status(500).json({ message: 'Server error.' });
         }
     };

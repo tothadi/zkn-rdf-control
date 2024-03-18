@@ -35,7 +35,7 @@ export default class Scale {
                 }
             }
         } catch (err) {
-            logger('SCALE', `${err}`, true);
+            logger('SCALE', err as Error);
         }
     }
 
@@ -46,8 +46,11 @@ export default class Scale {
      * @param reason the reason of the reconnection attempt
      * @param hadError true if the reason was an error
      */
-    reconnect(reason: string, hadError = false) {
-        logger('SCALE', `${reason} - Reconnecting in 10 seconds...`, hadError);
+    reconnect(reason: string | Error) {
+        logger(
+            'SCALE',
+            reason instanceof Error ? reason : `${reason} - Reconnecting in 10 seconds...`
+        );
 
         // Removing listeners to avoid memoryleaks
         this.scaleSocket.removeAllListeners();
@@ -82,15 +85,14 @@ export default class Scale {
         logger(
             'SCALE',
             hadError
-                ? `Error from client ${address} - ${error}.`
-                : `Client disconnected from ${address}.`,
-            hadError
+                ? `Error from client ${address} - ${error as Error}.`
+                : `Client disconnected from ${address}.`
         );
     }
 
     init(): void {
         // Subscribe to events of the scale converter socket
-        this.scaleSocket.on('error', (err) => this.reconnect(err.message, true));
+        this.scaleSocket.on('error', (err) => this.reconnect(err));
         this.scaleSocket.on('close', () => this.reconnect('Connection closed'));
         this.scaleSocket.on('timeout', () => this.reconnect('Timeout'));
         this.scaleSocket.on('end', () => this.reconnect('Scale socket ended'));
@@ -101,7 +103,7 @@ export default class Scale {
         });
 
         // Subscribe to events of the socket server
-        this.socketServer.on('error', (err) => this.reconnect(err.message, true));
+        this.socketServer.on('error', (err) => this.reconnect(err));
         this.socketServer.on('close', () => this.reconnect('Socket server closed'));
         this.socketServer.on('listening', () => logger('SCALE', `Listening on port: ${tcpPort}`));
         this.socketServer.on('connection', (socket) => {

@@ -23,7 +23,7 @@ export default function GetUser({ models }: { models: Models }) {
 
             return res.status(200).json(user);
         } catch (err) {
-            logger('GETUSER', `${err}`, true);
+            logger('GETUSER', err as Error);
             return res.status(500).json({ message: 'Server error.' });
         }
     };

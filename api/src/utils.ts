@@ -1,18 +1,22 @@
+import { format } from 'date-fns';
+
 /**
  * Adds a new entry in the log with source and timestamp
  *
  * @param mod the module the log entry came from
- * @param line the log entry text
+ * @param message the log entry text or Error
  */
-export function logger(mod: string, message: string | Error, error = false) {
-    const base = `\x1b[32m${new Date().toLocaleString()}\x1b[0m - \x1b[36m${mod}\x1b[0m -`;
-    const line = message instanceof Error ? `${message.message} - ${message.stack}` : message;
+export function logger(mod: string, message: string | Error) {
+    const base = `\x1b[32m${format(
+        new Date(),
+        'yyyy-MM-dd HH:mm:ss'
+    )}\x1b[0m - \x1b[36m${mod}\x1b[0m -`;
 
-    if (error) {
-        console.error(base, `\x1b[31m${line} \x1b[0m`);
+    if (message instanceof Error) {
+        console.error(base, `\x1b[31m${message.message} - ${message.stack} \x1b[0m`);
         return;
     }
-    console.log(base, `\x1b[33m${line} \x1b[0m`);
+    console.log(base, `\x1b[33m${message} \x1b[0m`);
 }
 
 export function requiredEnvValue(key: string): string {

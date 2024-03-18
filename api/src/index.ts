@@ -20,16 +20,16 @@ main()
             process.exit(0);
         });
 
-        process.on('unhandledRejection', (reason) => {
-            logger('MAIN', `${reason}`, true);
+        process.on('unhandledRejection', (reason: Error) => {
+            logger('MAIN', reason);
             console.log(reason);
         });
 
         process.on('uncaughtException', (err) => {
-            logger('MAIN', `${err}`, true);
+            logger('MAIN', err);
             // process.exit(0);
         });
     })
     .catch((err) => {
-        logger('MAIN', `${err}`, true);
+        logger('MAIN', err);
     });

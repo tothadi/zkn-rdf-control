@@ -17,7 +17,7 @@ export default class CameraServer {
         const stream = spawn('ffmpeg', getStreamArgs(direction));
 
         stream.on('error', (err) => {
-            logger(`STREAMER-${direction}`, JSON.stringify(err), true);
+            logger(`STREAMER-${direction}`, err as Error);
             stream.kill();
         });
 

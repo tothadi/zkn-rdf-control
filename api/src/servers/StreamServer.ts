@@ -25,7 +25,7 @@ export default class StreamServer {
 
             // Subscribe to error events of the client
             socket.on('error', (err) =>
-                logger('STREAM-SERVER', `Error from client ${address} - ${err}.`, true)
+                logger('STREAM-SERVER', `Error from client ${address} - ${err as Error}.`)
             );
 
             socket.on('close', () => {
