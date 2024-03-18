@@ -20,16 +20,26 @@ export class MerlegComponent implements OnInit, AfterViewInit, OnDestroy {
     weight = 0;
     barstate = 'open';
 
-    constructor(private streamService: StreamService, private auth: AuthService, private api: ApiService) {}
+    constructor(
+        private streamService: StreamService,
+        private auth: AuthService,
+        private api: ApiService
+    ) {}
 
     openGate() {
-        this.barstate = 'open';
-        this.api.openGate().subscribe(() => {});
+        this.api.openGate().subscribe((res) => {
+            if (res.message === 'OK') {
+                this.barstate = 'open';
+            }
+        });
     }
 
     closeGate() {
-        this.barstate = 'closed';
-        this.api.closeGate().subscribe(() => {});
+        this.api.closeGate().subscribe((res) => {
+            if (res.message === 'OK') {
+                this.barstate = 'closed';
+            }
+        });
     }
 
     signOut() {
