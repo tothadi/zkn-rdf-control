@@ -2,6 +2,8 @@ import { ObjectId } from 'typeorm';
 
 export type Direction = 'INCOMING' | 'OUTGOING';
 
+export type Toggle = 'open' | 'close';
+
 export interface SocketClient<T> {
     socket: T;
     address: string;

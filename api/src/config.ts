@@ -31,6 +31,16 @@ export const stream = {
 };
 
 export const barrier = {
+    switches: {
+        INCOMING: {
+            open: 3,
+            close: 4,
+        },
+        OUTGOING: {
+            open: 1,
+            close: 2,
+        },
+    },
     host: requiredEnvValue('BARRIER_HOST'),
     port: parseEnvNumber('BARRIER_PORT'),
     password: requiredEnvValue('BARRIER_PASSWORD'),

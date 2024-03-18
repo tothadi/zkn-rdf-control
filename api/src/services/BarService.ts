@@ -1,4 +1,5 @@
 import { barrier } from '../config';
+import { Direction, Toggle } from '../types';
 import { logger } from '../utils';
 
 export default function BarService() {
@@ -7,18 +8,22 @@ export default function BarService() {
      * @param sw the switch to trigger on RelayDroid
      * @returns status
      */
-    return async function toggleBar(sw: number): Promise<string> {
+    return async function toggleBar(bar: Direction, toggle: Toggle): Promise<string> {
         try {
-            const url = `${barrier.host}:${barrier.port}/api2.cgi?p=${barrier.password}&t0=1&sw=${sw}&v=1`;
+            const { host, port, password } = barrier;
+            const sw = barrier.switches[bar][toggle];
+            const url = `${host}:${port}/api2.cgi?p=${password}&t0=1&sw=${sw}&v=1`;
 
             const fetchOptions: RequestInit = {
                 method: 'GET',
                 headers: {},
             };
 
-            return await (await fetch(url, fetchOptions)).json();
+            const response = await fetch(url, fetchOptions);
+
+            return await response.text();
         } catch (err) {
-            logger('BAR-SERVICE', `${err}`, true);
+            logger('BAR-SERVICE', err as Error);
             return '';
         }
     };
